@@ -1,0 +1,53 @@
+/* defTheme.qss - Defensive Theme */
+QWidget {
+    background-color: #1b2a34;
+    color: #61afef;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
+
+QLineEdit, QTextEdit {
+    background-color: #223843;
+    border: 1px solid #61afef;
+    color: #ffffff;
+    padding: 4px;
+}
+
+QPushButton {
+    background-color: #61afef;
+    border: none;
+    color: white;
+    padding: 6px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #528bbd;
+}
+
+QTabWidget::pane {
+    border-top: 2px solid #61afef;
+}
+
+QTabBar::tab {
+    background: #223843;
+    color: #61afef;
+    padding: 6px;
+    border: 1px solid #61afef;
+    border-bottom: none;
+}
+
+QTabBar::tab:selected {
+    background: #61afef;
+    color: #1b2a34;
+    font-weight: bold;
+}
+
+QLabel {
+    color: #98c379;
+}
+
+QMessageBox {
+    background-color: #1b2a34;
+    color: #61afef;
+}

@@ -1,0 +1,48 @@
+/* attacker oriented theme */
+QWidget {
+    background-color: #1e1e1e;
+    color: #e06c75;
+    font-family: Consolas, monospace;
+    font-size: 14px;
+}
+
+QLineEdit, QTextEdit {
+    background-color: #2e2e2e;
+    border: 1px solid #e06c75;
+    color: #ffffff;
+    padding: 4px;
+}
+
+QPushButton {
+    background-color: #e06c75;
+    border: none;
+    color: white;
+    padding: 6px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #be5046;
+}
+
+QTabWidget::pane {
+    border-top: 2px solid #e06c75;
+}
+
+QTabBar::tab {
+    background: #2e2e2e;
+    color: #e06c75;
+    padding: 6px;
+    border: 1px solid #e06c75;
+    border-bottom: none;
+}
+
+QTabBar::tab:selected {
+    background: #e06c75;
+    color: #1e1e1e;
+    font-weight: bold;
+}
+
+QLabel {
+    color: #c678dd;
+}
