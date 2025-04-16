@@ -1,32 +1,38 @@
 import sys
 import subprocess
+import os
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QTabWidget, QVBoxLayout, QLabel,
-    QPushButton, QLineEdit, QTextEdit, QFormLayout, QHBoxLayout
+    QPushButton, QLineEdit, QTextEdit, QFormLayout, QHBoxLayout, QSpinBox
 )
 
 class AttackTab(QWidget):
-    def __init__(self, attack_type, script_name):
+    def __init__(self, attack_type, script_path):
         super().__init__()
         self.attack_type = attack_type
-        self.script_name = script_name
+        self.script_path = script_path
         self.init_ui()
 
     def init_ui(self):
         layout = QVBoxLayout()
 
-        #user input
+        # User input
         form_layout = QFormLayout()
         self.target_ip = QLineEdit()
         self.target_port = QLineEdit()
+        self.duration = QSpinBox()
+        self.duration.setRange(1, 300)  # 1-300 seconds
+        self.duration.setValue(30)  # Default 30 seconds
+        
         form_layout.addRow("Target IP:", self.target_ip)
         form_layout.addRow("Target Port:", self.target_port)
+        form_layout.addRow("Duration (s):", self.duration)
 
-        #atk button
+        # Attack button
         self.attack_button = QPushButton(f"Launch {self.attack_type} Attack")
         self.attack_button.clicked.connect(self.launch_attack)
 
-        #output display
+        # Output display
         self.output_display = QTextEdit()
         self.output_display.setReadOnly(True)
 
@@ -40,11 +46,12 @@ class AttackTab(QWidget):
     def launch_attack(self):
         ip = self.target_ip.text()
         port = self.target_port.text()
+        duration = str(self.duration.value())
 
         try:
-            #EXAMPLE - TO BE REPLACED
+            # Launch attack script with parameters
             result = subprocess.run(
-                ["python3", self.script_name, ip, port],
+                ["python3", self.script_path, ip, port, duration],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True
@@ -56,18 +63,22 @@ class AttackTab(QWidget):
 class AttackGUI(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("DoS/DDoS Attack Launcher")
+        self.setWindowTitle("Attack Launcher")
         self.setGeometry(100, 100, 700, 500)
         self.init_ui()
 
     def init_ui(self):
         tabs = QTabWidget()
 
-        #tab creation - placeholder scripts/names - TO BE REPLACED
-        tabs.addTab(AttackTab("VM Network-Based", "attack_vm_network.py"), "VM Network")
-        tabs.addTab(AttackTab("VM Host-Based", "attack_vm_host.py"), "VM Host")
-        tabs.addTab(AttackTab("Container Network-Based", "attack_container_network.py"), "Container Network")
-        tabs.addTab(AttackTab("Container Host-Based", "attack_container_host.py"), "Container Host")
+        # VM-based attacks
+        vm_attack_path = os.path.join("attacks", "vm", "syn_fldVM.py")
+        tabs.addTab(AttackTab("VM Network", vm_attack_path), "VM Network")
+        
+        # Container-based attacks
+        container_net_path = os.path.join("attacks", "container", "syn_fldContainer.py")
+        container_cpu_path = os.path.join("attacks", "container", "cpu_exhaust_container.py")
+        tabs.addTab(AttackTab("Container Network", container_net_path), "Container Network")
+        tabs.addTab(AttackTab("Container CPU", container_cpu_path), "Container CPU")
 
         self.setCentralWidget(tabs)
 
